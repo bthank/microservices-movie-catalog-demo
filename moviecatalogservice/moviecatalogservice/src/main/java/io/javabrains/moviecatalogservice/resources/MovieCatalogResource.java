@@ -35,13 +35,16 @@ public class MovieCatalogResource {
 		// Movie movie = restTemplate.getForObject("http://localhost:8092/movies/2", Movie.class);
 		
 		// get all rated movie IDs
-		UserRating ratings = restTemplate.getForObject("http://localhost:8093/ratingsdata/users/" + userId, UserRating.class);
+		// UserRating ratings = restTemplate.getForObject("http://localhost:8093/ratingsdata/users/" + userId, UserRating.class);
+		UserRating ratings = restTemplate.getForObject("http://ratingsdataservice/ratingsdata/users/" + userId, UserRating.class);
 		
 		return ratings.getUserRating()
 			.stream()
 			.map(rating -> {
 				// make a restTemplate call for the movie we want; for each movie Id, call movie info service and get the details
-				Movie movie = restTemplate.getForObject("http://localhost:8092/movies/" + rating.getMovieId(), Movie.class);
+				
+				// Movie movie = restTemplate.getForObject("http://localhost:8092/movies/" + rating.getMovieId(), Movie.class);
+				Movie movie = restTemplate.getForObject("http://movieinfoservice/movies/" + rating.getMovieId(), Movie.class);
 				
 				// make a WebClient call instead for the movie we want;  this piece of code will give us an instance of the Movie class
 				/*
